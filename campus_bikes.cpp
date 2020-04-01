@@ -5,7 +5,7 @@
 //                                     Here 'x' is map size and 'k' is average number of pairs per key in the map.
 //Did the code execute on Leetcode? Yes but this is not getting accepted in c++ and it's passing 27/28 cases.   
 //                                  It's giving TLE for last test case. This is because for large input and various
-//                                  distances the time complexity of adding an element in ordered map is log(n) for each element.
+//                                  distances the time complexity of adding an element in ordered map is log(n).
 
 class Solution {
 public:
