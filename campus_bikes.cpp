@@ -1,6 +1,6 @@
 //Time Complexity-O(m*n*log(x))--->here 'm'  is number of workers,'n' is number of bikes and 'x' is total number of unique 
 //                                 distances stored in hashmap(number of keys or map.size())
-//Space Complexity-O(x*k)+O(m)+O(n)--> Auxiliary space for storing if the workers and bikes are assigned(O(m)+O(n))
+//Space Complexity-O(x*k+m+n)--> Auxiliary space for storing if the workers and bikes are assigned(O(m)+O(n))
 //                                     Addition to this we also used ordered map which is of size x*k.
 //                                     Here 'x' is map size and 'k' is average number of pairs per key in the map.
 //Did the code execute on Leetcode? Yes but this is not getting accepted in c++ and it's passing 27/28 cases.   
