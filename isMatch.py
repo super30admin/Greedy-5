@@ -1,3 +1,7 @@
+#TC:O(m*n)
+#SC:O(m*n)
+#DP Solution
+
 class Solution:
     def isMatch(self, s: str, p: str) -> bool:
         if not s and not p:
