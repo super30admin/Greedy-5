@@ -35,3 +35,41 @@ class Solution:
                         dp[i][j]=True
         return dp[len(p)][len(s)]
                 
+#Two pointer Solution:
+#TC:O(n+m)
+#SC:O(1)
+class Solution:
+    def isMatch(self, s: str, p: str) -> bool:
+        if s==p or p=="*":
+            return True
+        sLen=len(s)
+        pLen=len(p)
+        sp=0
+        pp=0
+        sStar=-1
+        pStar=-1
+       
+        while sp<sLen:
+            if pp<pLen and (s[sp]==p[pp]  or p[pp]=="?"):
+                sp+=1
+                pp+=1
+            elif pp<pLen and p[pp]=="*":
+                sStar=sp
+                pStar=pp
+                pp+=1
+            elif pStar==-1:
+                return False
+            else:
+                pp = pStar + 1
+                sp = sStar + 1
+                sStar = sp
+        while pp<pLen:
+            if p[pp]!="*":
+                return False
+            pp+=1
+        return True
+                
+
+    
+
+
