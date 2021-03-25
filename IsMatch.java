@@ -1,5 +1,5 @@
-// Time Complexity : The time complexity is O(m*n) where m is the length of the s and n is the length of p
-// Space Complexity : Te space complexity is O(m*n) where m is the length of the s and n is the length of p
+// Time Complexity : The time complexity is O(min(m,n)) where m is the length of the s and n is the length of p
+// Space Complexity : Te space complexity is O(1) where m is the length of the s and n is the length of p
 // Did this code successfully run on Leetcode : Yes
 // Any problem you faced while coding this : No
 
@@ -13,45 +13,40 @@ class Solution {
         int pl = p.length();
         int sl = s.length();
 
-        boolean[][] dp = new boolean[pl+1][sl+1];
-        dp[0][0] = true;
+        int sp = 0;
+        int pp = 0;
+        int sStar = -1;
+        int pStar = -1;
 
-        for(int i=1;i<=pl;i++){
-            char ch = p.charAt(i-1);
-            if(ch == '*'){
-                dp[i][0] = dp[i-1][0];
+        while(sp < s.length()){
+            // if characters match
+            if(pp < p.length() && (s.charAt(sp) == p.charAt(pp) || p.charAt(pp) == '?')){
+                sp++; pp++;
+            }
+            // if character is *
+            else if(pp < p.length() && p.charAt(pp) == '*'){
+                sStar = sp;
+                pStar = pp;
+                pp++;
+            }
+            // if characters dont match
+            else if(pStar == -1){
+                return false;
+            }
+            // characters dont match, try to match * with letters
+            else{
+                sStar++;
+                sp = sStar;
+                pp = pStar+1;
             }
         }
 
-        for(int i=1;i<=pl;i++){
-
-            char ch = p.charAt(i-1);
-
-            for(int j=1;j<=sl;j++){
-
-                // if character is '*'
-                if(ch == '*'){
-                    if(dp[i][j-1]){
-                        dp[i][j] = true;
-                    }
-                    else{
-                        dp[i][j] = (dp[i-1][j] || dp[i-1][j-1]);
-                    }
-                }
-                // if character is '?'
-                else if(ch == '?'){
-                    dp[i][j] = dp[i-1][j-1];
-                }
-                // if character is a-z
-                else{
-                    if(p.charAt(i-1) == s.charAt(j-1)){
-                        dp[i][j] = dp[i-1][j-1];
-                    }
-                }
+        while(pp < p.length()){
+            if(p.charAt(pp) != '*'){
+                return false;
             }
+            pp++;
         }
-
-        return dp[pl][sl];
-
+        return true;
     }
 }
