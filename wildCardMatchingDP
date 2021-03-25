@@ -1,0 +1,65 @@
+class Solution {
+    //44. Wildcard Matching
+    //DP solution
+    //Time complexity : O(m*n) where m is length of string s and p is the length of string p
+    //Space complexity :O(m*n)
+    public boolean isMatch(String s, String p) {
+        
+        if(s.equals(p) || p.equals('*'))
+            return true;
+        
+        int sLen = s.length();
+        int pLen = p.length();
+        
+        boolean[][] dp = new boolean[pLen+1][sLen+1];
+        dp[0][0] = true;
+        
+        for(int i =1; i < dp.length; i++){
+            
+            char ch = p.charAt(i-1);
+            //1st case
+            if(ch == '*'){
+                //2 cases
+                int j = 0;
+                while(j < dp[0].length){
+                    
+                    if(j ==0){
+                        dp[i][j] = dp[i-1][j];
+                        
+                    }
+                    else{
+                        dp[i][j] = dp[i-1][j] || dp[i-1][j-1];
+                    }
+                    
+                    
+                    
+                    //checks if found any true, all the columns in that row will be true
+                    if(dp[i][j]){
+                        while(j < dp[0].length){
+                            dp[i][j] = true;
+                            j++;
+                        }
+                    }
+                    j++;
+                }
+                
+            }
+            
+            //2nd case : when there is '?'
+            else if( ch == '?'){
+                 
+                for(int j =1;j < dp[0].length;j++){
+                    dp[i][j] = dp[i-1][j-1];
+                }
+                     
+            }
+            //3rd case: when there is a charachter
+            else{ 
+            for(int j =1;j < dp[0].length;j++){
+                    dp[i][j] = ch == s.charAt(j-1) && dp[i-1][j-1];
+                }
+            }
+        }
+        return dp[dp.length -1][dp[0].length-1];
+    }
+}
