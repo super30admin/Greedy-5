@@ -1,6 +1,40 @@
 class Solution:
     #Solution 1
     def assignBikes(self, workers: List[List[int]], bikes: List[List[int]]) -> List[int]:
+        #Approach: Greedy // Arranging by distance
+        #Time Complexity: O(wb)
+        #Space Complexity: O(wb)
+        #where, w and b are the number of workers and bikes, respectively
+        
+        pairs = [None for i in range(2000)]     #all possible distances
+        for w in range(len(workers)):
+            for b in range(len(bikes)):
+                worker = workers[w]
+                bike = bikes[b]
+                dist = abs(worker[0] - bike[0]) + abs(worker[1] - bike[1])
+                if not pairs[dist]:
+                    pairs[dist] = []
+                pairs[dist].append((w, b))
+        
+        visitedWorkers = set()
+        visitedBikes = set()
+        result = [None for _ in workers]
+        
+        for distPairs in pairs:
+            if not distPairs:
+                continue
+            for pair in distPairs:
+                if pair[0] not in visitedWorkers and pair[1] not in visitedBikes:
+                    result[pair[0]] = pair[1]
+                    visitedWorkers.add(pair[0])
+                    visitedBikes.add(pair[1])
+                    
+                    if len(visitedWorkers) == len(workers):
+                        return result
+    
+    #Solution 2
+    """
+    def assignBikes(self, workers: List[List[int]], bikes: List[List[int]]) -> List[int]:
         #Approach: Greedy // Sorting by distance
         #Time Complexity: O(wb log wb)
         #Space Complexity: O(wb)
@@ -28,8 +62,9 @@ class Solution:
                 
                 if len(visitedWorkers) == len(workers):
                     return result
+    """
     
-    #Solution 2
+    #Solution 3
     """
     def assignBikes(self, workers: List[List[int]], bikes: List[List[int]]) -> List[int]:
         #Approach: Brute Force
