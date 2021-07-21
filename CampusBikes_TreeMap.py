@@ -1,4 +1,4 @@
-# TC: O(M x N) where M is the length of workers list and N is the length of bikes list. 
+# TC: O(M x N log(MN)) where M is the length of workers list and N is the length of bikes list. 
 # SC: O(D) where D is the height of the treemap that stores distance between all the workers with all the bikes.
 
 from sortedcontainers import SortedDict
