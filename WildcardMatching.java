@@ -1,8 +1,8 @@
 import java.util.ArrayList;
 import java.util.List;
 
-// Time Complexity : O(mn) where m = number of workers, n = number of bikes
-// Space Complexity : O(m) + O(n) where m = number of workers, n = number of bikes
+// Time Complexity : O(m*log(n)) where m = length of source string, n = length of pattern string
+// Space Complexity : O(1)
 // Did this code successfully run on Leetcode :
 // Any problem you faced while coding this :
 
