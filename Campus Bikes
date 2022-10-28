@@ -1,0 +1,23 @@
+class Solution:
+    def assignBikes(self, workers: List[List[int]], bikes: List[List[int]]) -> List[int]:
+        res = [None for i in range(len(workers))]
+        d = defaultdict(list)
+        for wi, w in enumerate(workers):            
+            for bi, b in enumerate(bikes):                
+                x = self.z(w, b)                
+                d[x].append([wi, bi])
+        m = set()
+        n = set()
+        for key in sorted(d.keys()):            
+            for pair in d[key]:
+                if pair[0] not in m and pair[1] not in n:
+                    res[pair[0]] = pair[1]
+                    m.add(pair[0])
+                    n.add(pair[1])
+        return res
+    def z(self, w, b):
+        return abs(w[0] - b[0]) + abs(w[1] - b[1])
+    
+# Time Complexity: O(mn)
+# Space Complexity: O(n)
+# Successfullyt implemented on Leetcode
