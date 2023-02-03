@@ -1,0 +1,59 @@
+//Timecomplexity        O(m*n)
+//SpaceComplexity       O(m)
+
+
+class Solution {
+    public int[] assignBikes(int[][] workers, int[][] bikes) {
+        
+        HashMap<Integer,List<int[]>> map = new HashMap<>();
+        int min = 2000;
+        int max = 0;
+        
+        for(int i = 0 ; i < workers.length; i++){
+            for(int j = 0; j < bikes.length; j++){
+                int[] w = workers[i];
+                int[] b = bikes[j];
+                
+                int dist = calDist(w,b);
+                min = Math.min(min,dist);
+                max = Math.max(max,dist);
+                
+                if(!map.containsKey(dist)){
+                    map.put(dist,new ArrayList<>());
+                }
+                int[] temp = new int[] {i,j};
+                map.get(dist).add(temp);
+            }
+        }
+        
+        int[] result = new int[workers.length];
+        int count = 0;
+        
+        boolean [] Woccupied = new boolean[workers.length];
+        boolean [] Bassigned = new boolean[bikes.length];
+       
+        for(int i = min; i <= max; i++){
+            
+            List<int[]> list = map.get(i);
+            
+           if(list == null)continue;
+            
+            for(int[] w : list){
+                if(!Woccupied[w[0]] && !Bassigned[w[1]]){
+                    Woccupied[w[0]] = true;
+                    Bassigned[w[1]] = true;
+                    result[w[0]] =  w[1];
+                    count++;
+                    if(count == workers.length)return result;
+                }       
+            }
+        }
+      return result;  
+        
+    }
+    
+    public int calDist(int[] w, int[] b){
+        int dist = Math.abs((w[0]-b[0])) + Math.abs((w[1]-b[1]));
+        return dist;
+    }
+}
