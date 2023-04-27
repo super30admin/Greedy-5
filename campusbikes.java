@@ -1,5 +1,16 @@
-//TC: O(m*n)
-//SC: O(m*n)
+//Time Complexity : O(MN log MN)
+//Space Complexity : O(MN)
+//Did this code successfully run on Leetcode : Yes
+//Any problem you faced while coding this : No
+
+/**
+ * Calculate the distances and put the pair of bike and worker in the map for
+ * that particular distance. Then take a boolean array to confirm if the
+ * respective bike or worker is occupied. Iterate over the map values and mark
+ * the respective bike and worker as true and store in result. Finally return
+ * the result.
+ *
+ */
 class Solution {
     public int[] assignBikes(int[][] workers, int[][] bikes) {
         //null
