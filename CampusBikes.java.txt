@@ -1,0 +1,57 @@
+// Time Complexity : O(m*n)
+// Space Complexity : O(m*n)
+// Did this code successfully run on Leetcode : Yes
+// Any problem you faced while coding this : None
+
+
+class CampusBikes {
+    public int[] assignBikes(int[][] workers, int[][] bikes) {
+        if(workers.length == 0 || bikes.length == 0 || workers==null || bikes==null){
+            return null;
+        }
+        HashMap<Integer,List<int[]>> map = new HashMap();
+        int m = workers.length;
+        int n = bikes.length;
+        int min = Integer.MAX_VALUE;
+        int max = Integer.MIN_VALUE;
+
+        for(int i=0;i<m;i++){
+            int[] w = workers[i];
+            for(int j=0;j<n;j++){
+                int dist = calculateDistance(w,bikes[j]);
+                min = Math.min(min,dist);
+                max = Math.max(max,dist);
+                if(!map.containsKey(dist)){
+                    map.put(dist,new ArrayList());
+                }
+                map.get(dist).add(new int[]{i,j});
+            }
+        }
+        boolean[] occupied = new boolean[n];
+        boolean[] assigned = new boolean[m];
+        int[] result = new int[m];
+        int count = 0;
+        for(int dist=min;dist<=max;dist++){
+            List<int[]> li = map.get(dist);
+            if(li!=null){
+                for(int[] wb: li){
+                int w = wb[0];
+                int b = wb[1];
+                if(!assigned[w] && !occupied[b]){
+                    assigned[w]=true;
+                    occupied[b]=true;
+                    result[w]=b;
+                    count++;
+                    if(count==m){
+                        return result;
+                    }
+                }
+            }
+          }
+        }
+        return result;
+    }
+    private int calculateDistance(int[] worker, int[] bike){
+        return Math.abs(worker[1]-bike[1])+Math.abs(worker[0]-bike[0]);
+    }
+}
