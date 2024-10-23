@@ -1,0 +1,97 @@
+T.c --> O(mnlogmn)
+S.c --> O(mn)
+
+class Solution {
+    public int[] assignBikes(int[][] workers, int[][] bikes) {
+       TreeMap<Integer,List<List<Integer>>> treemap = 
+                  new TreeMap<>();
+       for(int i =0; i<workers.length; i++){
+        for(int j = 0; j<bikes.length; j++){
+            int distance = manhattandistance(workers[i],bikes[j]);
+            if(!treemap.containsKey(distance)){
+                treemap.put(distance,new ArrayList<>());
+            }
+            treemap.get(distance).add(Arrays.asList(i,j));
+        }
+       }
+       int[] result = new int[workers.length];
+       int count = 0;
+       boolean[] assignedworkers = new boolean[workers.length];
+       boolean[] assignedbikes = new boolean[bikes.length];
+       for(Integer key : treemap.keySet()){
+         List<List<Integer>> workerbikes = treemap.get(key);
+         for(List<Integer> wb: workerbikes){
+            int worker = wb.get(0);
+            int bike = wb.get(1);
+            if(assignedworkers[worker] == false){
+                if(assignedbikes[bike] == false){
+
+                    assignedworkers[worker] = true;
+                    assignedbikes[bike] = true;
+                    count++;
+                    result[worker] = bike;
+                    if(count == workers.length){
+                        return result;
+                    }
+                }
+            }            
+         }           
+       }
+      return result;
+    }
+    private int manhattandistance(int[] workers, int[] bikes){
+        return Math.abs(workers[0]-bikes[0]) + Math.abs(workers[1]-bikes[1]);
+    }
+}
+****************************************************************************************
+T.c --> O(mn)
+S.c --> O(mn)
+
+class Solution {
+    public int[] assignBikes(int[][] workers, int[][] bikes) {
+       HashMap<Integer,List<List<Integer>>> treemap = 
+                  new HashMap<>();
+       int min = Integer.MAX_VALUE;
+       int max = Integer.MIN_VALUE;
+       for(int i =0; i<workers.length; i++){
+        for(int j = 0; j<bikes.length; j++){
+            int distance = manhattandistance(workers[i],bikes[j]);
+            min = Math.min(min,distance);
+            max = Math.max(max,distance);
+            if(!treemap.containsKey(distance)){
+                treemap.put(distance,new ArrayList<>());
+            }
+            treemap.get(distance).add(Arrays.asList(i,j));
+        }
+       }
+       int[] result = new int[workers.length];
+       int count = 0;
+       boolean[] assignedworkers = new boolean[workers.length];
+       boolean[] assignedbikes = new boolean[bikes.length];
+       for(int i =min; i<=max; i++){
+         List<List<Integer>> workerbikes = treemap.get(i);
+         if(workerbikes == null){
+            continue;
+         }
+         for(List<Integer> wb: workerbikes){
+            int worker = wb.get(0);
+            int bike = wb.get(1);
+            if(assignedworkers[worker] == false){
+                if(assignedbikes[bike] == false){
+                    assignedworkers[worker] = true;
+                    assignedbikes[bike] = true;
+                    count++;
+                    result[worker] = bike;
+                    if(count == workers.length){
+                        return result;
+                    }
+                }
+            }            
+         }           
+       }
+      return result;
+    }
+    private int manhattandistance(int[] workers, int[] bikes){
+        return Math.abs(workers[0]-bikes[0]) + Math.abs(workers[1]-bikes[1]);
+    }
+}
