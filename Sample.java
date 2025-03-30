@@ -1,4 +1,37 @@
 class Sample{
+    /****************PROBLEM-1***************/
+    //TC:0(m*n)
+//SC:0(m*n)
+    class Solution {
+        public boolean isMatch(String s, String p) {
+            if(s.equals(p)){
+                return true;
+            }
+            if(p==null || p.length()==0){
+                return false;
+            }
+            int n=s.length();
+            int m=p.length();
+            boolean[][] dp=new boolean[m+1][n+1];
+            dp[0][0]=true;
+            for(int i=1;i<m+1;i++){
+                for(int j=0;j<n+1;j++){
+                    if(p.charAt(i-1)!='*'){
+                        if((j>0)&&(p.charAt(i-1)==s.charAt(j-1) || p.charAt(i-1)=='?')){
+                            dp[i][j]=dp[i-1][j-1];
+                        }
+                    }else{
+                        dp[i][j]=dp[i-1][j];
+                        if(j>0){
+                            dp[i][j]=dp[i][j] || dp[i][j-1];
+                        }
+                    }
+                }
+            }
+            return dp[m][n];
+        }
+    }
+
     /****************PROBLEM-2***************/
     //TC:0(N*M log (m*n))
 //SC:0(N*M)
