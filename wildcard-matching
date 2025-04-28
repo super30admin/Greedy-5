@@ -1,0 +1,78 @@
+// Time Complexity :O(m*n)
+// Space Complexity :O(m*n)
+// Did this code successfully run on Leetcode :yes
+// Any problem you faced while coding this :no
+// Your code here along with comments explaining your approach:DP approach where pattern as rows and sorce string as columns we can do this other way around as patttern as column and soruce as rows with minimal chnages in the code 
+class Solution {
+    public boolean isMatch(String s, String p) {
+        boolean[][] dp = new boolean[p.length() + 1][s.length() + 1]; //s strin gis row and pattern is column
+        dp[0][0] = true;//filling first row and first col as true as we are taking one extra row and column
+        for (int i = 1; i < dp.length; i++) {
+            char pChar = p.charAt(i - 1);
+            if (pChar == '*') {
+                dp[i][0] = dp[i - 1][0];
+            } else {
+               dp[i][0] = false;
+            }
+        }
+        for (int i = 1; i < dp.length; i++) {
+            for (int j = 1; j < dp[0].length; j++) {
+                char schar = s.charAt(j - 1);
+                char pChar = p.charAt(i - 1);
+                if (pChar == '*') {//if pChar is * then zero case is just above and 1 case just top
+                    dp[i][j] = dp[i - 1][j] || dp[i][j - 1];
+                } else {
+                    if (schar == pChar ||pChar == '?') {
+                        dp[i][j] = dp[i - 1][j - 1];//if both i and j are euqal or if p char is ? then take diagonal
+                    } else {
+                        dp[i][j] = false; //if both are two different chars then simple false
+                    }
+                }
+
+            }
+        }
+
+        return dp[p.length()][s.length()];
+    }
+}
+
+
+// Time Complexity :best case O(m+n) and worest case O(m.n) and average case O(slogp)
+// Space Complexity :
+// Did this code successfully run on Leetcode :yes
+// Any problem you faced while coding this :no
+// Your code here along with comments explaining your approach:with two pointers but exploring all possiblities here first taking zero case as assumtion it's goint to work when it fails coming back and choosing one case
+
+class Solution {
+    public boolean isMatch(String s, String p) {
+        int sl = s.length();
+        int pl = p.length();
+        int pp = 0;//pattern pointer
+        int sp = 0;//source pointer
+        int sStar = -1;//wild char choosing 0 case
+        int pStar = -1;//wild char choosing 0 case
+        while (sp < sl) {
+            if (pp < pl && (s.charAt(sp) == p.charAt(pp) || p.charAt(pp) == '?')) {//both are matching
+                sp++;
+                pp++;
+            } else if (pp < pl && p.charAt(pp) == '*') {//start at pattern and taking 0 case and making star pointer at place and moving pp
+                sStar = sp;
+                pStar = pp;
+                pp++;
+            } else if (pStar == -1) {//no match and we didn't encounter star before
+                return false;
+            } else {//as go forward realized that 0 assumption is not working then moving back where wi,d char encounterd and matching chars and from there checking again
+                sStar = sStar + 1;
+                sp = sStar;
+                pp = pStar + 1;
+            }
+        }
+        while (pp < pl) {
+            if (p.charAt(pp) != '*') {
+                return false;
+            }
+            pp++;
+        }
+        return true;
+    }
+}
